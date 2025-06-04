@@ -1,4 +1,10 @@
 {
-  "name": "AGOS",
-  "displayName": "AGOS"
+  "expo": {
+    "name": "AGOS",
+    "slug": "AGOS",
+    "version": "1.0.0",
+    "sdkVersion": "53.0.0",
+    "jsEngine": "jsc",
+    "platforms": ["ios", "android", "web"]
+  }
 }
