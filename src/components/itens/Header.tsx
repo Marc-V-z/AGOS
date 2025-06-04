@@ -27,7 +27,7 @@ const Header = ({ isHomeScreen }) => {
 
       {/* Logo central fixa */}
       <Image
-        source={require("../../assets/images/AGOS.png")}
+        source={require("../../assets/images/invertedAGOS.png")}
         style={styles.logo}
       />
 
