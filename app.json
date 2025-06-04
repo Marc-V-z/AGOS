@@ -3,8 +3,40 @@
     "name": "AGOS",
     "slug": "AGOS",
     "version": "1.0.0",
-    "sdkVersion": "53.0.0",
-    "jsEngine": "jsc",
-    "platforms": ["ios", "android", "web"]
+    "orientation": "portrait",
+    "icon": "./src/assets/images/icon.png",
+    "scheme": "AGOS",
+    "userInterfaceStyle": "automatic",
+    "newArchEnabled": true,
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./src/assets/images/adaptive-icon.png",
+        "backgroundColor": "#222"
+      },
+      "edgeToEdgeEnabled": true
+    },
+    "web": {
+      "bundler": "metro",
+      "output": "static",
+      "favicon": "./src/assets/images/favicon.png"
+    },
+    "plugins": [
+      "expo-router",
+      [
+        "expo-splash-screen",
+        {
+          "image": "./src/assets/images/splash-icon.png",
+          "imageWidth": 200,
+          "resizeMode": "contain",
+          "backgroundColor": "##222"
+        }
+      ]
+    ],
+    "experiments": {
+      "typedRoutes": true
+    }
   }
 }
