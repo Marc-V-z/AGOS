@@ -1,5 +1,6 @@
+import { formatCurrency } from "@/common/MoneyConvert"; // Importa a função de conversão
 import React from "react";
-import { Dimensions, StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 
 interface NumberContainerProps {
   mainNumber: number;
@@ -10,29 +11,27 @@ interface NumberContainerProps {
 export default function NumberContainer({ mainNumber, leftNumber, rightNumber }: NumberContainerProps) {
   return (
     <View style={styles.container}>
-      {/* Número grande e centralizado */}
-      <Text style={styles.mainNumber}>{mainNumber}</Text>
+      {/* Número grande e centralizado - Convertido para reais */}
+      <Text style={styles.mainNumber}>{formatCurrency(mainNumber)}</Text>
 
       <View style={styles.bottomNumbers}>
-        {/* Número pequeno à esquerda */}
-        <Text style={styles.leftNumber}>{leftNumber}</Text>
+        {/* Número pequeno à esquerda - Convertido para reais */}
+        <Text style={styles.leftNumber}>{formatCurrency(leftNumber)}</Text>
 
-        {/* Número pequeno à direita */}
-        <Text style={styles.rightNumber}>{rightNumber}</Text>
+        {/* Número pequeno à direita - Convertido para reais */}
+        <Text style={styles.rightNumber}>{formatCurrency(rightNumber)}</Text>
       </View>
     </View>
   );
 }
 
-const { width } = Dimensions.get("window"); // Obtém a largura total da tela
-
 const styles = StyleSheet.create({
   container: {
-    width: width, // Ocupa toda a largura da tela
-    height: 160, // Aumenta a altura
+    width: "100%", // Ocupa toda a largura da tela
+    height: 160, // Altura maior
     backgroundColor: "#000", // Fundo preto
-    justifyContent: "center", // Centraliza elementos verticalmente
-    alignItems: "center", // Centraliza horizontalmente
+    justifyContent: "center",
+    alignItems: "center",
   },
   mainNumber: {
     fontSize: 50, // Número grande no centro
@@ -52,7 +51,7 @@ const styles = StyleSheet.create({
     color: "#FFF",
   },
   rightNumber: {
-    fontSize: 18, // Número pequeno à direita
+    fontSize: 18, // Mesmo tamanho do número à esquerda
     color: "#FFF",
   },
 });

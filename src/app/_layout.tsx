@@ -22,6 +22,8 @@ function ThemedLayout() {
       <View style={{ flex: 1, backgroundColor: theme === "dark" ? "#222" : "#FFF" }}>
         <Stack screenOptions={{ animation: "fade", contentStyle: { backgroundColor: theme === "dark" ? "#222" : "#FFF" } }}>
           <Stack.Screen name="main" options={{ headerShown: false }} />
+          <Stack.Screen name="BudgetsManage" options={{ headerShown: false }} />
+            
         </Stack>
       </View>
     </View>
