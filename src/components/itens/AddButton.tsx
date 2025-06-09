@@ -1,4 +1,5 @@
 import { useNavigation } from "@react-navigation/native";
+import { useRouter } from "expo-router";
 import React from "react";
 import { StyleSheet, Text, TouchableOpacity } from "react-native";
 
@@ -8,10 +9,17 @@ interface MainButtonProps {
 }
 
 export default function MainButton({ onPress }: MainButtonProps) {
-  const navigation = useNavigation(); 
+  const navigation = useNavigation();
+  const router = useRouter();
+
 
   return (
-    <TouchableOpacity style={styles.button} onPress={() => navigation.navigate("Saldo_CRUD")}>
+    <TouchableOpacity
+      style={styles.button}
+      onPress={() => router.push("/main/Saldo_CRUD")}
+
+      //onPress={onPress ? onPress : () => navigation.navigate("Saldo_CRUD")}
+    >
       <Text style={styles.text}>{"+"}</Text>
     </TouchableOpacity>
   );
@@ -24,7 +32,7 @@ const styles = StyleSheet.create({
     borderRadius: 100,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#2fa500",
+    backgroundColor: "#00ce8c", //"#2fa500",
     margin: 15,
   },
   text: {

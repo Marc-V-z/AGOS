@@ -13,7 +13,6 @@ export default function BudgetLayout({ children }: LayoutProps) {
       {/* Configuração de navegação */}
       <Stack>
         <Stack.Screen name="Budgets" options={{ headerShown: false }} />
-        <Stack.Screen name="Saldo_CRUD" options={{ headerShown: false }} />
       </Stack>
 
       {/* Renderiza os filhos da tela */}

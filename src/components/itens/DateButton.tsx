@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
     borderRadius: 100, // Bordas arredondadas
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#2fa500",
+    backgroundColor: "#00c285",//"#2fa500",
   },
   text: {
     fontWeight: "bold", // Texto em negrito

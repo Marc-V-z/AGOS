@@ -5,6 +5,7 @@ export default function MainLayout() {
     <Stack initialRouteName="Home">
       <Stack.Screen name="Home" options={{ headerShown: false }} />
       <Stack.Screen name="Settings" options={{ headerShown: false }} />
+      <Stack.Screen name="Saldo_CRUD" options={{ headerShown: false }} />
     </Stack>
   );
 }
