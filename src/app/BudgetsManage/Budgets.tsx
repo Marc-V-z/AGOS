@@ -1,5 +1,4 @@
 import { Despesa } from "@/common/asyncStorage/despesas";
-import Header from "@/components/itens/Header";
 import { useTheme } from "@/constants/ThemeContext";
 import React, { useEffect, useState } from "react";
 import { FlatList, StyleSheet, Text, View } from "react-native";
@@ -19,7 +18,6 @@ export default function Budgets() {
 
   return (
     <View style={{ flex: 1, backgroundColor: theme === "dark" ? "#222" : "#FFF" }}>
-      <Header isHomeScreen={false} />
       <View style={{ flex: 1, padding: 16 }}>
         <Text style={{ fontSize: 20, marginBottom: 16 }}>Seus Orçamentos:</Text>
         <FlatList

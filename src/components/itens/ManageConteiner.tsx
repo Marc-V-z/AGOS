@@ -3,13 +3,14 @@ import { StyleSheet, View } from "react-native";
 
 import AddButton from "./AddButton";
 import DateButton from "./DateButton";
+import GButton from "./GraphcsButton";
 
 export default function ManageConteiner() {
   return (
     <View style={styles.container}>
         <DateButton onPress={() => alert("Botão Adicionar pressionado!")} />
         <AddButton/>
-        <DateButton onPress={() => alert("Botão Adicionar pressionado!")} />
+        <GButton onPress={() => alert("Botão Adicionar pressionado!")} />
     </View>
   );
 }
