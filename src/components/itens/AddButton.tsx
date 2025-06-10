@@ -1,26 +1,22 @@
+// Components/itens/AddButton.tsx
 import { useRouter } from "expo-router";
 import React from "react";
 import { StyleSheet, Text, TouchableOpacity } from "react-native";
-//import { useNavigation } from "@react-navigation/native";
 
-interface MainButtonProps {
-  onPress?: () => void;
+interface AddButtonProps {
+  target: "receita" | "despesa";
 }
 
-export default function MainButton({ onPress }: MainButtonProps) {
-  //const navigation = useNavigation();
+export default function AddButton({ target }: AddButtonProps) {
   const router = useRouter();
 
+  // Define os caminhos conforme o target:
+  const targetPath =
+    target === "receita" ? "/main/Receita_CRUD" : "/main/Despesa_CRUD";
 
   return (
-    <TouchableOpacity
-      style={styles.button}
-      //onPress={() => router.push("/main/Saldo_CRUD")}
-      onPress={() => router.push("/main/Receita_CRUD")}
-
-      //onPress={onPress ? onPress : () => navigation.navigate("Saldo_CRUD")}
-    >
-      <Text style={styles.text}>{"+"}</Text>
+    <TouchableOpacity style={styles.button} onPress={() => router.push(targetPath)}>
+      <Text style={styles.text}>+</Text>
     </TouchableOpacity>
   );
 }
@@ -32,7 +28,7 @@ const styles = StyleSheet.create({
     borderRadius: 100,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#00ce8c", //"#2fa500",
+    backgroundColor: "#00ce8c",
     margin: 15,
   },
   text: {
@@ -41,4 +37,3 @@ const styles = StyleSheet.create({
     fontSize: 50,
   },
 });
-// Adiciona Saldo

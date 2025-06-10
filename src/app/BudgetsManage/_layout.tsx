@@ -1,6 +1,5 @@
 // app/BudgetsManage/_layout.tsx
 import Header from "@/components/itens/Header";
-import ManageConteiner from "@/components/itens/ManageConteiner";
 import { useTheme } from "@/constants/ThemeContext";
 import { Stack } from "expo-router";
 import React from "react";
@@ -36,7 +35,7 @@ export default function BudgetLayout({ children }: LayoutProps) {
         {children}
       </View>
 
-      <ManageConteiner />
+      {/* <ManageConteiner />  */}
     </View>
   );
 }

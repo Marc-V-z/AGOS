@@ -4,7 +4,6 @@ import Header from "@/components/itens/Header";
 import MainButton from "@/components/itens/MainButtons";
 import MainConteiner from "@/components/itens/MainConteiner";
 import { useTheme } from "@/constants/ThemeContext";
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useRouter } from "expo-router";
 import React, { useEffect, useState } from "react";
 import { StyleSheet, View } from "react-native";
@@ -12,6 +11,7 @@ import "react-native-get-random-values";
 
 //import { useNavigation } from "@react-navigation/native";
 export default function Home() {
+  {/*
  useEffect(() => {
     (async () => {
       try {
@@ -21,7 +21,7 @@ export default function Home() {
         console.error("Erro ao limpar o AsyncStorage no startup:", error);
       }
     })();
-  }, []);
+  }, []); */}
 
 
 

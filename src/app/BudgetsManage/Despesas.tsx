@@ -1,13 +1,27 @@
-// src/screens/Despesas.tsx
 import { Despesa } from "@/common/asyncStorage/despesas";
 import { loadData } from "@/common/asyncStorage/storage";
 import { getDataSourcePreference } from "@/common/preferences";
+import DespesasConteiner from "@/components/itens/DespesasConteiner";
 import MainConteiner from "@/components/itens/MainConteiner";
 import { firestore } from "@/config/firebaseConfig";
 import { useTheme } from "@/constants/ThemeContext";
 import { collection, getDocs } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
-import { ActivityIndicator, ScrollView, StyleSheet, Text, View } from "react-native";
+import {
+  ActivityIndicator,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
+
+// Função de formatação: divide o valor (em centavos) por 100 e formata com vírgula para exibição
+const formatMoney = (centValue: number): string => {
+  const absValue = Math.abs(centValue);
+  const reais = Math.floor(absValue / 100);
+  const centavos = absValue % 100;
+  return (centValue < 0 ? "-" : "") + `${reais},${centavos.toString().padStart(2, "0")}`;
+};
 
 export default function Despesas(): JSX.Element {
   const theme = useTheme();
@@ -46,9 +60,9 @@ export default function Despesas(): JSX.Element {
     }
   };
 
-  // useEffect para decidir qual fonte utilizar com base na preferência do usuário
   useEffect(() => {
     const fetchDespesas = async () => {
+      // Lê a preferência do usuário: "online" ou "offline"
       const pref = await getDataSourcePreference();
       let data: Despesa[] = [];
       
@@ -65,7 +79,7 @@ export default function Despesas(): JSX.Element {
     fetchDespesas();
   }, []);
 
-  // Calcula o total de despesas
+  // Calcula o total de despesas (valor em centavos)
   const totalDespesa = despesas.reduce(
     (acum, item) => acum + Number(item.quantia),
     0
@@ -92,13 +106,18 @@ export default function Despesas(): JSX.Element {
 
   return (
     <View style={[styles.container, { backgroundColor: theme === "dark" ? "#222" : "#FFF" }]}>
-      <MainConteiner mainNumber={total} leftNumber={totalReceita} rightNumber={totalDespesa} />
+      <MainConteiner
+        mainNumber={total}
+        leftNumber={totalReceita}
+        rightNumber={totalDespesa}
+      />
       <ScrollView contentContainerStyle={styles.listContainer}>
         {despesas.length > 0 ? (
           despesas.map((item) => (
             <View key={item.id} style={styles.item}>
               <Text style={styles.itemText}>
-                {item.nome} – {item.descricao || "Sem descrição"} – {item.quantia}
+                {item.nome} – {item.descricao || "Sem descrição"} –{" "}
+                {formatMoney(item.quantia)}
               </Text>
             </View>
           ))
@@ -106,6 +125,8 @@ export default function Despesas(): JSX.Element {
           <Text style={styles.emptyText}>Nenhuma despesa encontrada</Text>
         )}
       </ScrollView>
+      {/* Adiciona o contêiner exclusivo para Despesas */}
+      <DespesasConteiner />
     </View>
   );
 }

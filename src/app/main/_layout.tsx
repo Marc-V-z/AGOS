@@ -6,6 +6,8 @@ export default function MainLayout() {
       <Stack.Screen name="Home" options={{ headerShown: false }} />
       <Stack.Screen name="Settings" options={{ headerShown: false }} />
       <Stack.Screen name="Saldo_CRUD" options={{ headerShown: false }} />
+      <Stack.Screen name="Receita_CRUD" options={{ headerShown: false }} />
+      <Stack.Screen name="Despesa_CRUD" options={{ headerShown: false }} />
     </Stack>
   );
 }

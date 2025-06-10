@@ -2,11 +2,25 @@ import { Receita } from "@/common/asyncStorage/receitas";
 import { loadData } from "@/common/asyncStorage/storage";
 import { getDataSourcePreference } from "@/common/preferences";
 import MainConteiner from "@/components/itens/MainConteiner";
+import ReceitasConteiner from "@/components/itens/ReceitasConteiner";
 import { firestore } from "@/config/firebaseConfig";
 import { useTheme } from "@/constants/ThemeContext";
 import { collection, getDocs } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
-import { ActivityIndicator, ScrollView, StyleSheet, Text, View } from "react-native";
+import {
+  ActivityIndicator,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
+
+// Função de formatação: divide o valor em centavos por 100 para exibição com vírgula
+const formatMoney = (centValue: number): string => {
+  const reais = Math.floor(centValue / 100);
+  const centavos = centValue % 100;
+  return `${reais},${centavos.toString().padStart(2, "0")}`;
+};
 
 export default function Receitas(): JSX.Element {
   const theme = useTheme();
@@ -51,7 +65,6 @@ export default function Receitas(): JSX.Element {
       const pref = await getDataSourcePreference();
       let data: Receita[] = [];
 
-      // Se a preferência for "online", carrega os dados do Firestore; caso contrário, carrega os dados locais
       if (pref === "online") {
         data = await fetchFirestoreReceitas();
       } else {
@@ -76,7 +89,11 @@ export default function Receitas(): JSX.Element {
       <View
         style={[
           styles.container,
-          { justifyContent: "center", alignItems: "center", backgroundColor: theme === "dark" ? "#222" : "#FFF" },
+          {
+            justifyContent: "center",
+            alignItems: "center",
+            backgroundColor: theme === "dark" ? "#222" : "#FFF",
+          },
         ]}
       >
         <ActivityIndicator size="large" color="#48c9b0" />
@@ -85,14 +102,24 @@ export default function Receitas(): JSX.Element {
   }
 
   return (
-    <View style={[styles.container, { backgroundColor: theme === "dark" ? "#222" : "#FFF" }]}>
-      <MainConteiner mainNumber={total} leftNumber={0} rightNumber={totalReceita} />
+    <View
+      style={[
+        styles.container,
+        { backgroundColor: theme === "dark" ? "#222" : "#FFF" },
+      ]}
+    >
+      <MainConteiner
+        mainNumber={total}
+        leftNumber={0}
+        rightNumber={totalReceita}
+      />
       <ScrollView contentContainerStyle={styles.listContainer}>
         {receitas.length > 0 ? (
           receitas.map((item) => (
             <View key={item.id} style={styles.item}>
               <Text style={styles.itemText}>
-                {item.nome} – {item.descricao || "Sem descrição"} – {item.quantia}
+                {item.nome} – {item.descricao || "Sem descrição"} –{" "}
+                {formatMoney(item.quantia)}
               </Text>
             </View>
           ))
@@ -100,6 +127,8 @@ export default function Receitas(): JSX.Element {
           <Text style={styles.emptyText}>Nenhuma receita encontrada</Text>
         )}
       </ScrollView>
+      {/* Adiciona o contêiner exclusivo para Receitas */}
+      <ReceitasConteiner />
     </View>
   );
 }
