@@ -1,24 +1,71 @@
+// src/screens/Despesas.tsx
 import { Despesa } from "@/common/asyncStorage/despesas";
 import { loadData } from "@/common/asyncStorage/storage";
+import { getDataSourcePreference } from "@/common/preferences";
 import MainConteiner from "@/components/itens/MainConteiner";
+import { firestore } from "@/config/firebaseConfig";
 import { useTheme } from "@/constants/ThemeContext";
+import { collection, getDocs } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
-import { ScrollView, StyleSheet, Text, View } from "react-native";
+import { ActivityIndicator, ScrollView, StyleSheet, Text, View } from "react-native";
 
-export default function Budgets() {
+export default function Despesas(): JSX.Element {
   const theme = useTheme();
   const [despesas, setDespesas] = useState<Despesa[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
-  // Carrega as despesas do AsyncStorage
+  // Função para carregar despesas salvas localmente via AsyncStorage
+  const fetchLocalDespesas = async (): Promise<Despesa[]> => {
+    try {
+      const list = (await loadData("app_budget_despesas_list")) || [];
+      return list as Despesa[];
+    } catch (error) {
+      console.error("Erro ao carregar despesas do AsyncStorage:", error);
+      return [];
+    }
+  };
+
+  // Função para carregar despesas do Firestore (dados online)
+  const fetchFirestoreDespesas = async (): Promise<Despesa[]> => {
+    try {
+      const despesaCol = collection(firestore, "despesas");
+      const snapshot = await getDocs(despesaCol);
+      const list = snapshot.docs.map((doc) => {
+        const data = doc.data();
+        return {
+          id: doc.id,
+          nome: data.nome,
+          descricao: data.descricao,
+          quantia: data.quantia,
+        } as Despesa;
+      });
+      return list;
+    } catch (error) {
+      console.error("Erro ao buscar despesas do Firestore:", error);
+      return [];
+    }
+  };
+
+  // useEffect para decidir qual fonte utilizar com base na preferência do usuário
   useEffect(() => {
     const fetchDespesas = async () => {
-      const list = (await loadData("app_budget_despesas_list")) || [];
-      setDespesas(list);
+      const pref = await getDataSourcePreference();
+      let data: Despesa[] = [];
+      
+      if (pref === "online") {
+        data = await fetchFirestoreDespesas();
+      } else {
+        data = await fetchLocalDespesas();
+      }
+      
+      setDespesas(data);
+      setIsLoading(false);
     };
+
     fetchDespesas();
   }, []);
 
-  // Soma de todas as despesas
+  // Calcula o total de despesas
   const totalDespesa = despesas.reduce(
     (acum, item) => acum + Number(item.quantia),
     0
@@ -26,25 +73,32 @@ export default function Budgets() {
   const totalReceita = 0;
   const total = totalReceita + totalDespesa;
 
-  return (
-    <View
-      style={{ flex: 1, backgroundColor: theme === "dark" ? "#222" : "#FFF" }}
-    >
-      {/* Aqui o seu MainConteiner */}
-      <MainConteiner
-        mainNumber={total}
-        leftNumber={totalReceita}
-        rightNumber={totalDespesa}
-      />
+  if (isLoading) {
+    return (
+      <View
+        style={[
+          styles.container,
+          {
+            justifyContent: "center",
+            alignItems: "center",
+            backgroundColor: theme === "dark" ? "#222" : "#FFF",
+          },
+        ]}
+      >
+        <ActivityIndicator size="large" color="#48c9b0" />
+      </View>
+    );
+  }
 
-      {/* Container rolável para as despesas */}
+  return (
+    <View style={[styles.container, { backgroundColor: theme === "dark" ? "#222" : "#FFF" }]}>
+      <MainConteiner mainNumber={total} leftNumber={totalReceita} rightNumber={totalDespesa} />
       <ScrollView contentContainerStyle={styles.listContainer}>
         {despesas.length > 0 ? (
           despesas.map((item) => (
             <View key={item.id} style={styles.item}>
               <Text style={styles.itemText}>
-                {item.nome} – {item.descricao || "Sem descrição"} –{" "}
-                {item.quantia}
+                {item.nome} – {item.descricao || "Sem descrição"} – {item.quantia}
               </Text>
             </View>
           ))
@@ -57,6 +111,9 @@ export default function Budgets() {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
   listContainer: {
     paddingHorizontal: 16,
     paddingVertical: 20,
@@ -70,7 +127,7 @@ const styles = StyleSheet.create({
   },
   itemText: {
     fontSize: 16,
-    color: "#48c9b0"
+    color: "#48c9b0",
   },
   emptyText: {
     textAlign: "center",

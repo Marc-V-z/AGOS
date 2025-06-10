@@ -1,20 +1,16 @@
-import { loadData, saveData } from "@/common/asyncStorage/storage";
+import { loadData } from "@/common/asyncStorage/storage";
 import Graphics from "@/components/itens/ColumnGraphics";
 import Header from "@/components/itens/Header";
 import MainButton from "@/components/itens/MainButtons";
 import MainConteiner from "@/components/itens/MainConteiner";
 import { useTheme } from "@/constants/ThemeContext";
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useNavigation } from "@react-navigation/native";
 import { useRouter } from "expo-router";
 import React, { useEffect, useState } from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import "react-native-get-random-values";
-import { v4 as uuidv4 } from "uuid";
 
-
-//import { Link } from "expo-router";
-
+//import { useNavigation } from "@react-navigation/native";
 export default function Home() {
  useEffect(() => {
     (async () => {
@@ -69,7 +65,7 @@ export default function Home() {
 
 
   const theme = useTheme();
-  const navigation = useNavigation();
+  //const navigation = useNavigation();
   const router = useRouter();
 
   //const receita = 50050
@@ -95,7 +91,7 @@ export default function Home() {
       </View>
 
 
-      
+      {/*  Botões de Teste Rapido
       <TouchableOpacity
         style={{
           width: 60,
@@ -173,6 +169,7 @@ export default function Home() {
       >
         <Text style={{ color: "#fff", fontSize: 30 }}>+</Text>
       </TouchableOpacity>
+      */}
 
       
 

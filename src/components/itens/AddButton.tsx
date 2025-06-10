@@ -1,22 +1,22 @@
-import { useNavigation } from "@react-navigation/native";
 import { useRouter } from "expo-router";
 import React from "react";
 import { StyleSheet, Text, TouchableOpacity } from "react-native";
-
+//import { useNavigation } from "@react-navigation/native";
 
 interface MainButtonProps {
   onPress?: () => void;
 }
 
 export default function MainButton({ onPress }: MainButtonProps) {
-  const navigation = useNavigation();
+  //const navigation = useNavigation();
   const router = useRouter();
 
 
   return (
     <TouchableOpacity
       style={styles.button}
-      onPress={() => router.push("/main/Saldo_CRUD")}
+      //onPress={() => router.push("/main/Saldo_CRUD")}
+      onPress={() => router.push("/main/Receita_CRUD")}
 
       //onPress={onPress ? onPress : () => navigation.navigate("Saldo_CRUD")}
     >
