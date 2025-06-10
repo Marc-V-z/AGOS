@@ -1,4 +1,7 @@
+// app/BudgetsManage/_layout.tsx
+import Header from "@/components/itens/Header";
 import ManageConteiner from "@/components/itens/ManageConteiner";
+import { useTheme } from "@/constants/ThemeContext";
 import { Stack } from "expo-router";
 import React from "react";
 import { StyleSheet, View } from "react-native";
@@ -8,17 +11,31 @@ interface LayoutProps {
 }
 
 export default function BudgetLayout({ children }: LayoutProps) {
+  const theme = useTheme();
+
   return (
-    <View style={styles.container}>
-      {/* Configuração de navegação */}
-      <Stack>
-        <Stack.Screen name="Budgets" options={{ headerShown: false }} />
-      </Stack>
+    <View
+      style={[
+        styles.container,
+        { backgroundColor: theme === "dark" ? "#222" : "#FFF" },
+      ]}
+    >
+      {/* Cabeçalho fixo - NÃO muda com o tema */}
+      <Header isHomeScreen={false} />
 
-      {/* Renderiza os filhos da tela */}
-      {children}
+      {/* Fundo da página - Segue o tema do usuário */}
+      <View style={styles.content}>
+        <Stack
+          screenOptions={{
+            headerShown: false,
+            contentStyle: {
+              backgroundColor: theme === "dark" ? "#222" : "#FFF",
+            },
+          }}
+        />
+        {children}
+      </View>
 
-      {/* Contêiner de botões */}
       <ManageConteiner />
     </View>
   );
@@ -27,7 +44,8 @@ export default function BudgetLayout({ children }: LayoutProps) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "space-between",
-    backgroundColor: "#FFF",
+  },
+  content: {
+    flex: 1,
   },
 });

@@ -1,10 +1,12 @@
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { useNavigation } from "@react-navigation/native";
+import { useRouter } from "expo-router";
 import React from "react";
 import { Image, StyleSheet, TouchableOpacity, View } from "react-native";
 
 const Header = ({ isHomeScreen }) => {
   const navigation = useNavigation();
+  const router = useRouter();
 
   return (
     <View style={styles.header}>
@@ -12,9 +14,11 @@ const Header = ({ isHomeScreen }) => {
       <TouchableOpacity
         onPress={() => {
           if (isHomeScreen) {
-            navigation.navigate("Settings");
+            router.push("/main/Settings");
+            //navigation.navigate("Settings");
           } else {
-            navigation.goBack();
+            router.back()
+            //navigation.goBack();
           }
         }}
       >

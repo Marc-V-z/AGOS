@@ -2,19 +2,24 @@ import React from "react";
 import { Dimensions, StyleSheet, Text, useColorScheme, View } from "react-native";
 import { BarChart } from "react-native-chart-kit";
 
+interface Valor {
+  quantia: number;
+}
+
 interface GraphicsProps {
-  data: number[];
+  //data: number[];
+  data: Valor[];
   title: string;
 }
 
 export default function Graphics({ data, title }: GraphicsProps) {
-  // Obtém o tema atual ("dark" ou "light")
   const scheme = useColorScheme();
-  // Se o tema for escuro ("dark"), define o título como branco; caso contrário, preto.
   const textColor = scheme === "dark" ? "#fff" : "#000";
 
-  // Converte os valores de centavos para reais
-  const processedData = data.map((value) => value / 100);
+  // Limita os dados aos 12 últimos itens (ou menos se não houver 12)
+  const limitedData = data.slice(Math.max(data.length - 12, 0));
+  // Converte os valores de centavos para reais usando o array limitado
+  const processedData = limitedData.map((item) => item.quantia / 100);
   // Cria um array de labels em branco para cada coluna
   const labels = processedData.map(() => "");
 
